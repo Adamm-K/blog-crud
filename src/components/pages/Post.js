@@ -1,16 +1,35 @@
-import { useParams } from 'react-router-dom';
 import { getPostById } from '../../redux/postsRedux';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card'
-import { Link } from 'react-router-dom';
+import { useParams, Link,  Navigate } from 'react-router-dom';
+import { useState } from 'react';
+import ModalDelete from '../features/ModalDelete';
+import { removePost } from '../../redux/postsRedux';
 
 const Post = () => {
 
+  const dispatch =  useDispatch();
   const {postId} = useParams();
-  const postData = useSelector(state => getPostById(state, postId))
+
+  const postData = useSelector(state => getPostById(state, postId));
+
+  const [showModal, setShowModal] = useState(false);
+  const handleClose = () => setShowModal(false);
+  const handleShow = () =>  setShowModal(true);    
+
+  const handleRemove = e => {  
+    e.preventDefault();
+    dispatch(removePost( postId ));
+    handleClose();   
+  };
+
+  if(showModal) return (
+    <ModalDelete showModal={showModal} handleClose={handleClose} handleRemove={handleRemove} />
+  );
+  if(!postData) return <Navigate to="/" />;
 
   return (
     <div>
@@ -19,8 +38,8 @@ const Post = () => {
         <Card className="border-0">
             <Card.Body>
               <Card.Title>{postData.title}</Card.Title>
-              <Card.Subtitle className="mb-1">Author: <span as={Card.Text}>{postData.author}</span></Card.Subtitle>
-              <Card.Subtitle>Published: {postData.publishedDate}</Card.Subtitle>
+              <Card.Text className="mb-1"><b>Author:</b> {postData.author}</Card.Text>
+              <Card.Text><b>Published:</b> {postData.publishedDate}</Card.Text>
               <Card.Text className="mt-2">{postData.content}</Card.Text>         
             </Card.Body>
           </Card>
@@ -28,10 +47,8 @@ const Post = () => {
         <Col xs="12" lg="4">
         <Link to="/post/edit">
           <Button variant="outline-info" className="m-2">Edit</Button>
-        </Link>
-        <Link to="/">
-          <Button variant="outline-danger">Delete</Button>
-        </Link>
+        </Link>    
+          <Button variant="outline-danger" onClick={handleShow}>Delete</Button> 
         </Col>
       </Row>
     </div>
