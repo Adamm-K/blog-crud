@@ -5,6 +5,8 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Button from 'react-bootstrap/Button'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const PostForm = ({ action, actionText, ...props }) => {
 
@@ -46,13 +48,17 @@ const PostForm = ({ action, actionText, ...props }) => {
                 <Form.Control as="textarea" placeholder="Leave a comment here" style={{ height: '100px' }} value={shortDescription} onChange={e => setShortDescription(e.target.value)} />
             </FloatingLabel>
           </Form.Group> 
-          <Form.Group >
-            <Form.Label value={content}>Main content</Form.Label>              
-            <FloatingLabel controlId="floatingTextarea" className="mb-3">
-                <Form.Control as="textarea" placeholder="Leave a comment here" style={{ height: '100px' }} value={content} onChange={e => setContent(e.target.value)} />
-            </FloatingLabel>
-          </Form.Group>
-          <Button as="input" type="submit" value={actionText} />{' '}        
+          <Form.Group>
+          <Form.Label value={content}>Main content</Form.Label>   
+             <ReactQuill
+
+             theme="snow"   
+             value={content} 
+             onChange={setContent}
+             placeholder="Type here" 
+             />        
+          </Form.Group>           
+          <Button className="mt-3" as="input" type="submit" value={actionText} />{' '}        
         </Form>
       </Col>
     </Row>
