@@ -8,6 +8,8 @@ import { Routes, Route} from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Header from './components/views/Header';
 import Footer from './components/views/Footer';
+import Categories from './components/pages/Categories';
+import PostsByCategory from './components/pages/PostsByCategory';
 
 const  App = () => {
   return (
@@ -16,6 +18,8 @@ const  App = () => {
         <Header />
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/categories' element={<Categories />} />
+          <Route path='/category/:postCategory' element={<PostsByCategory />} />
           <Route path='/about' element={<About />} />
           <Route path='/post/:postId' element={<Post />} />
           <Route path='/post/add' element={<PostAdd />} />

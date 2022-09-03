@@ -40,8 +40,9 @@ const Post = () => {
             <Card.Body>
               <Card.Title>{postData.title}</Card.Title>
               <Card.Text className="mb-1"><b>Author:</b> {postData.author}</Card.Text>
-              <Card.Text><b>Published:</b> {dateToStr(postData.publishedDate)}</Card.Text>
-              <Card.Text className="mt-2" dangerouslySetInnerHTML={{ __html: postData.content }} />          
+              <Card.Text className="mb-1"><b>Published:</b> {dateToStr(postData.publishedDate)}</Card.Text>
+              <Card.Text className="mb-3"><b>Category:</b> {postData.category}</Card.Text>
+              <Card.Text dangerouslySetInnerHTML={{ __html: postData.content }} />        
             </Card.Body>
           </Card>
         </Col>

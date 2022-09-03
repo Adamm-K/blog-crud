@@ -10,6 +10,8 @@ import 'react-quill/dist/quill.snow.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm } from 'react-hook-form';
+import { getAllCategories } from '../../redux/categoriesRedux';
+import { useSelector } from 'react-redux';
 
 const PostForm = ({ action, actionText, ...props }) => {
 
@@ -21,17 +23,22 @@ const PostForm = ({ action, actionText, ...props }) => {
   const [publishedDate, setPublishedDate] = useState(props.publishedDate || '');
   const [shortDescription, setShortDescription] = useState(props.shortDescription || '');
   const [content, setContent] = useState(props.content || '');
+  const [category, setCategory] = useState(props.category || '');
   const [contentError, setContentError] = useState(false);
   const [dateError, setDateError] = useState(false);
+  const [categoryError, setCategoryError] = useState(false);
+
+  const categories = useSelector(getAllCategories);
 
   const { register, handleSubmit: validate, formState: { errors } } = useForm();
 
   const handleSubmit = () => {
     setContentError(!content);
     setDateError(!publishedDate);
+    setCategoryError(!category);
 
     if (content && publishedDate && content !== '<p><br></p>') {
-      action({ title, author, publishedDate, shortDescription, content, id });
+      action({ title, author, publishedDate, shortDescription, content, id, category });
       navigate('/');
     }
   }
@@ -70,6 +77,18 @@ const PostForm = ({ action, actionText, ...props }) => {
               onChange={(date) => setPublishedDate(date)} 
             />
            {dateError && <small className="d-block form-text text-danger mt-2">Date can't be empty</small>}
+          </Form.Group>
+          <Form.Group className="mb-3">
+          <Form.Label>Category</Form.Label>   
+            <Form.Control {...register("category", { required: true})}
+              as="select"
+              placeholder="Please select category"
+              value={category ? category : "1"}
+              onChange={e => setCategory(e.target.value)}>
+                <option disabled value="1">Select category...</option>
+               {categories.map((category, index) => <option key={index} value={category}>{category}</option> )}   
+            </Form.Control>            
+            {categoryError && <small className="d-block form-text text-danger mt-2">Please choose category</small>}
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label value={shortDescription}>Short description</Form.Label>              
