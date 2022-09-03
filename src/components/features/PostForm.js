@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
+import DatePicker from "react-datepicker";
 import 'react-quill/dist/quill.snow.css';
 
 const PostForm = ({ action, actionText, ...props }) => {
@@ -40,7 +41,9 @@ const PostForm = ({ action, actionText, ...props }) => {
           </Form.Group>
           <Form.Group className="mb-3 w-50">
           <Form.Label >Published</Form.Label>
-            <Form.Control type="date" placeholder="dd-mm-yyyy" value={publishedDate} onChange={e => setPublishedDate(e.target.value)}/>
+          <DatePicker 
+              selected={publishedDate}               
+              onChange={(date) => setPublishedDate(date)} />
           </Form.Group>
           <Form.Group >
             <Form.Label value={shortDescription}>Short description</Form.Label>              
@@ -51,7 +54,6 @@ const PostForm = ({ action, actionText, ...props }) => {
           <Form.Group>
           <Form.Label value={content}>Main content</Form.Label>   
              <ReactQuill
-
              theme="snow"   
              value={content} 
              onChange={setContent}

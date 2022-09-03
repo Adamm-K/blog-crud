@@ -8,6 +8,7 @@ import { useParams, Link,  Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import ModalDelete from '../features/ModalDelete';
 import { removePost } from '../../redux/postsRedux';
+import { dateToStr } from '../../utils/dateToStr';
 
 const Post = () => {
 
@@ -39,7 +40,7 @@ const Post = () => {
             <Card.Body>
               <Card.Title>{postData.title}</Card.Title>
               <Card.Text className="mb-1"><b>Author:</b> {postData.author}</Card.Text>
-              <Card.Text><b>Published:</b> {postData.publishedDate}</Card.Text>
+              <Card.Text><b>Published:</b> {dateToStr(postData.publishedDate)}</Card.Text>
               <Card.Text className="mt-2" dangerouslySetInnerHTML={{ __html: postData.content }} />          
             </Card.Body>
           </Card>
